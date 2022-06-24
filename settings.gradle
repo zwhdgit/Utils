@@ -9,3 +9,4 @@ dependencyResolutionManagement {
 rootProject.name = "TestActivity"
 include ':app'
 include ':utils'
+include ':wifip2putil'
