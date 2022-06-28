@@ -12,7 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestActivity">
         <activity
-            android:name="com.zwh.test.TestActivity"
+            android:name=".test_wifip2p.ServiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".test_wifip2p.ClientActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TestActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

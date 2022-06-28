@@ -2,26 +2,24 @@ package com.zwh.test;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.bluetooth.BluetoothAdapter;
-import android.content.IntentFilter;
+import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Choreographer;
 import android.view.View;
 
 import com.zwh.test.databinding.ActivityTestBinding;
+import com.zwh.test.test_wifip2p.ClientActivity;
+import com.zwh.test.test_wifip2p.ServiceActivity;
 import com.zwh.utils.observable.BusMutableLiveData;
 import com.zwh.utils.observable.SingleLiveEvent;
-
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import io.reactivex.Observable;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -35,6 +33,7 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initView();
 
+        initTestWifiP2p();
 //        testObservableField();
 //        testBusMutableLiveData();
 //        testSingleLiveEvent();
@@ -47,20 +46,39 @@ public class TestActivity extends AppCompatActivity {
         setContentView(view);
         DataBindingUtil.bind(view);
         binding = DataBindingUtil.getBinding(view);
-        AtomicBoolean isBluOff = new AtomicBoolean(true);
-        binding.btTest.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void initTestWifiP2p() {
+        binding.requestPermissions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean b = isBluOff.get();
-                isBluOff.compareAndSet(b,!b);
-                Log.e(TAG, "onClick: "+b );
+                ActivityCompat.requestPermissions(TestActivity.this,
+                        new String[]{Manifest.permission.CHANGE_NETWORK_STATE,
+                                Manifest.permission.ACCESS_NETWORK_STATE,
+//                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.ACCESS_WIFI_STATE,
+                                Manifest.permission.CHANGE_WIFI_STATE,
+                                Manifest.permission.ACCESS_FINE_LOCATION}, 2333);
+            }
+        });
+        binding.bt0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(TestActivity.this, ClientActivity.class));
+            }
+        });
+        binding.bt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TestActivity.this, ServiceActivity.class));
             }
         });
     }
 
     private void testSingleLiveEvent() {
         singleLiveEvent.setValue("ss");
-        binding.btTest.setOnClickListener(new View.OnClickListener() {
+        binding.bt0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 singleLiveEvent.observe(TestActivity.this, new Observer<String>() {
@@ -96,7 +114,7 @@ public class TestActivity extends AppCompatActivity {
             }
         }).get(TestViewModel.class);
         binding.setViewModel(viewModel);
-        binding.btTest.setOnClickListener(new View.OnClickListener() {
+        binding.bt0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 viewModel.setText("天气真好");

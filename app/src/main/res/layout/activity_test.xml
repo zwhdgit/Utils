@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -18,11 +17,22 @@
         tools:context=".TestActivity">
 
         <Button
-            android:id="@+id/bt_test"
+            android:id="@+id/requestPermissions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="点击修改"
-            />
+            android:text="请求权限"/>
+
+        <Button
+            android:id="@+id/bt0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="客户端" />
+
+        <Button
+            android:id="@+id/bt1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="服务端" />
 
         <TextView
             android:id="@+id/tv_test"

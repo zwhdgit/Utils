@@ -60,8 +60,8 @@ public class DirectBroadcastReceiver extends BroadcastReceiver {
                         mDirectActionListener.wifiP2pEnabled(true);
                     } else {
                         mDirectActionListener.wifiP2pEnabled(false);
-                        List<WifiP2pDevice> wifiP2pDeviceList = new ArrayList<>();
-                        mDirectActionListener.onPeersAvailable(wifiP2pDeviceList);
+//                        List<WifiP2pDevice> wifiP2pDeviceList = new ArrayList<>();
+//                        mDirectActionListener.onPeersAvailable(wifiP2pDeviceList);
                     }
                     break;
                 }
