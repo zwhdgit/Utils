@@ -33,7 +33,21 @@ public class ServiceActivity extends AppCompatActivity {
 
     private View send;
 
-    private WifiServiceTask serviceTask = new WifiServiceTask();
+    private WifiServiceTask serviceTask = new WifiServiceTask() {
+        {
+            setMsgListener(new MsgListener() {
+                @Override
+                public void onReceiveMsg(String msg) {
+                    ServiceActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            addLog( "客户端：" +msg);
+                        }
+                    });
+                }
+            });
+        }
+    };
     private String curClientDeviceName = "";
     private boolean connectionInfoAvailable;
 
@@ -97,11 +111,10 @@ public class ServiceActivity extends AppCompatActivity {
         wifiP2pHelper.init(getApplication(), new DirectActionListener() {
             @Override
             public void wifiP2pEnabled(boolean enabled) {
-                if (enabled) {
-
-                } else {
-
+                if (!enabled) {
+                    showToast("请打开wifi进行连接");
                 }
+                Log.e(TAG, "wifiP2pEnabled: " + enabled);
             }
 
             /**
@@ -159,9 +172,10 @@ public class ServiceActivity extends AppCompatActivity {
                         send.setEnabled(true);
                         curClientDeviceName = wifiP2pDevice.deviceName;
                     } else if (curClientDeviceName.equals(deviceName) && wifiP2pDevice.status == 3) {
+                        Log.e(TAG, "断开连接设备: " + wifiP2pDevice.deviceName);
+                        addLog("断开连接设备:" + wifiP2pDevice.deviceName);
                         startConnectTask();
                         send.setEnabled(false);
-                        Log.e(TAG, "断开连接设备: " + wifiP2pDevice.deviceName);
                     }
                     Log.e(TAG, "onPeersAvailable: " + deviceName + "," + status);
                 }
@@ -172,22 +186,11 @@ public class ServiceActivity extends AppCompatActivity {
                 showToast("断开连接");
             }
         });
+
+        wifiP2pHelper.deleteGroup(null);
     }
 
     private void startConnectTask() {
-        serviceTask.clean();
-        serviceTask = new WifiServiceTask();
-        serviceTask.setMsgListener(new MsgListener() {
-            @Override
-            public void onReceiveMsg(String msg) {
-                ServiceActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        addLog("收到客户端消息：" + msg);
-                    }
-                });
-            }
-        });
         serviceTask.start();
         curClientDeviceName = "";
     }
@@ -209,5 +212,6 @@ public class ServiceActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         serviceTask.clean();
+        wifiP2pHelper.onDestroy();
     }
 }

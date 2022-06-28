@@ -10,7 +10,6 @@ import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
@@ -30,16 +29,17 @@ public class WifiP2pHelper {
     private WifiP2pManager.Channel channel;
     private DirectBroadcastReceiver broadcastReceiver;
 
-    public void init(Application context, DirectActionListener directActionListener) {
+    public boolean init(Application context, DirectActionListener directActionListener) {
         this.context = context;
         wifiP2pManager = (WifiP2pManager) context.getSystemService(Context.WIFI_P2P_SERVICE);
         if (wifiP2pManager == null) {
 //            finish();
-            return;
+            return false;
         }
         channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), directActionListener);
         broadcastReceiver = new DirectBroadcastReceiver(wifiP2pManager, channel, directActionListener);
         context.registerReceiver(broadcastReceiver, DirectBroadcastReceiver.getIntentFilter());
+        return true;
     }
 
 
@@ -84,7 +84,7 @@ public class WifiP2pHelper {
             return;
         }
         //  建议不管成功失败先尝试关闭群组
-        deleteGroup(null);
+//        deleteGroup(null);
         wifiP2pManager.createGroup(channel, actionListener);
     }
 
@@ -104,6 +104,7 @@ public class WifiP2pHelper {
     }
 
     public void onDestroy() {
+        disconnect(null);
         context.unregisterReceiver(broadcastReceiver);
         context = null;
     }

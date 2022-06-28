@@ -9,6 +9,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class WifiClientTask extends Thread {
 
@@ -17,6 +19,8 @@ public class WifiClientTask extends Thread {
     private Socket mSocket;
 
     private MsgListener msgListener;
+    private DataInputStream readerStream;
+    private DataOutputStream writerStream;
 
     public void setMsgListener(MsgListener msgListener) {
         this.msgListener = msgListener;
@@ -56,21 +60,24 @@ public class WifiClientTask extends Thread {
      * @param msg
      */
     public void sendMessage(final String msg) {
-        new Thread() {
+        ExecutorService executor = Executors.newCachedThreadPool();
+        executor.execute(new Runnable() {
             @Override
             public void run() {
-                try {
-                    if (isValidSocket()) {
-                        DataOutputStream writer = new DataOutputStream(mSocket.getOutputStream());
-                        writer.writeUTF("客户端发送消息："+msg); // 写一个UTF-8的信息
-                    }
+                {
+                    try {
+                        if (isValidSocket()) {
+                            writerStream = new DataOutputStream(mSocket.getOutputStream());
+                            writerStream.writeUTF("" + msg); // 写一个UTF-8的信息
+                        }
 
-                } catch (IOException e) {
-                    //todo 异常处理
-                    e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-        }.start();
+        });
+
     }
 
     /**
@@ -80,26 +87,49 @@ public class WifiClientTask extends Thread {
         new Thread() {
             @Override
             public void run() {
-                DataInputStream reader;
+                readerStream = null;
                 try {
                     // 获取读取流
-                    reader = new DataInputStream(mSocket.getInputStream());
+                    readerStream = new DataInputStream(mSocket.getInputStream());
                     while (isValidSocket()) {
                         // 读取数据
-                        String msg = reader.readUTF();
+                        String msg = readerStream.readUTF();
                         if (msgListener != null) {
                             msgListener.onReceiveMsg(msg);
                         }
-
-//                        Message message = new Message();
-//                        message.what = 1;
-//                        message.obj = msg;
-//                        handler.sendMessage(message);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }.start();
+    }
+
+    public void clean() {
+        if (isValidSocket()) {
+            try {
+                mSocket.close();
+                mSocket = null;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (readerStream != null) {
+            try {
+                readerStream.close();
+                readerStream = null;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (writerStream != null) {
+            try {
+                writerStream.close();
+                writerStream = null;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

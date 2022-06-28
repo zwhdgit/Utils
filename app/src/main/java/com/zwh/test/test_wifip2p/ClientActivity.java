@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pInfo;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,7 +46,7 @@ public class ClientActivity extends AppCompatActivity {
     private RecyclerView rv;
     private WifiP2pDevice curConnectDevice;
     private WifiP2pHelper wifiP2pHelper;
-    private WifiClientTask wifiClientTask1;
+    private WifiClientTask wifiClientTask;
     private Socket mSocket;
 
     @Override
@@ -62,8 +63,9 @@ public class ClientActivity extends AppCompatActivity {
             @Override
             public void wifiP2pEnabled(boolean enabled) {
                 if (!enabled) {
-
+                    showToast("请打开wifi进行连接");
                 }
+                Log.e(TAG, "wifiP2pEnabled: " + enabled);
             }
 
             /**
@@ -72,48 +74,50 @@ public class ClientActivity extends AppCompatActivity {
              */
             @Override
             public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
-//                dismissLoadingDialog();
-                mWifiP2pDeviceList.clear();
-                deviceAdapter.notifyDataSetChanged();
-                disconnect.setEnabled(true);
-                send.setEnabled(true);
-                Log.e(TAG, "onConnectionInfoAvailable");
-                Log.e(TAG, "onConnectionInfoAvailable groupFormed: " + wifiP2pInfo.groupFormed);
-                Log.e(TAG, "onConnectionInfoAvailable isGroupOwner: " + wifiP2pInfo.isGroupOwner);
-                Log.e(TAG, "onConnectionInfoAvailable getHostAddress: " + wifiP2pInfo.groupOwnerAddress.getHostAddress());
-                StringBuilder stringBuilder = new StringBuilder();
-                if (curConnectDevice != null) {
-                    stringBuilder.append("连接的设备名：");
-                    stringBuilder.append(curConnectDevice.deviceName);
+                try {
+                    mWifiP2pDeviceList.clear();
+                    deviceAdapter.notifyDataSetChanged();
+                    disconnect.setEnabled(true);
+                    send.setEnabled(true);
+                    Log.e(TAG, "onConnectionInfoAvailable");
+                    Log.e(TAG, "onConnectionInfoAvailable groupFormed: " + wifiP2pInfo.groupFormed);
+                    Log.e(TAG, "onConnectionInfoAvailable isGroupOwner: " + wifiP2pInfo.isGroupOwner);
+                    Log.e(TAG, "onConnectionInfoAvailable getHostAddress: " + wifiP2pInfo.groupOwnerAddress.getHostAddress());
+                    StringBuilder stringBuilder = new StringBuilder();
+                    if (curConnectDevice != null) {
+                        stringBuilder.append("连接的设备名：");
+                        stringBuilder.append(curConnectDevice.deviceName);
+                        stringBuilder.append("\n");
+                        stringBuilder.append("连接的设备的地址：");
+                        stringBuilder.append(curConnectDevice.deviceAddress);
+                    }
                     stringBuilder.append("\n");
-                    stringBuilder.append("连接的设备的地址：");
-                    stringBuilder.append(curConnectDevice.deviceAddress);
-                }
-                stringBuilder.append("\n");
-                stringBuilder.append("是否群主：");
-                stringBuilder.append(wifiP2pInfo.isGroupOwner ? "是群主" : "非群主");
-                stringBuilder.append("\n");
-                stringBuilder.append("群主IP地址：");
-                stringBuilder.append(wifiP2pInfo.groupOwnerAddress.getHostAddress());
-                addLog(stringBuilder.toString());
+                    stringBuilder.append("是否群主：");
+                    stringBuilder.append(wifiP2pInfo.isGroupOwner ? "是群主" : "非群主");
+                    stringBuilder.append("\n");
+                    stringBuilder.append("群主IP地址：");
+                    stringBuilder.append(wifiP2pInfo.groupOwnerAddress.getHostAddress());
+                    addLog(stringBuilder.toString());
 //                if (wifiP2pInfo.groupFormed && !wifiP2pInfo.isGroupOwner) {
-                ClientActivity.this.wifiP2pInfo = wifiP2pInfo;
+                    ClientActivity.this.wifiP2pInfo = wifiP2pInfo;
 //                }
 
-                wifiClientTask1 = new WifiClientTask(wifiP2pInfo.groupOwnerAddress.getHostAddress());
-                wifiClientTask1.setMsgListener(new MsgListener() {
-                    @Override
-                    public void onReceiveMsg(String msg) {
-                        ClientActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                addLog("收到服务器回传--"+msg);
-                            }
-                        });
-                    }
-                });
-                wifiClientTask1.start();
-//                new SocketConnectThread().start();
+                    wifiClientTask = new WifiClientTask(wifiP2pInfo.groupOwnerAddress.getHostAddress());
+                    wifiClientTask.setMsgListener(new MsgListener() {
+                        @Override
+                        public void onReceiveMsg(String msg) {
+                            ClientActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    addLog("服务端：" + msg);
+                                }
+                            });
+                        }
+                    });
+                    wifiClientTask.start();
+                } catch (Exception e) {
+                    Log.e(TAG, "onConnectionInfoAvailable: " + e.getMessage());
+                }
             }
 
             @Override
@@ -169,17 +173,19 @@ public class ClientActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                wifiP2pHelper.search(null);
+                wifiP2pHelper.search(new WifiP2pManager.ActionListener() {
+                    @Override
+                    public void onSuccess() {
+                        showToast("成功");
+                    }
+
+                    @Override
+                    public void onFailure(int reason) {
+                        showToast("失败");
+                    }
+                });
             }
         });
-
-//        connect = findViewById(R.id.connect);
-//        connect.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                wifiP2pHelper.connect(curConnectDevice, null);
-//            }
-//        });
 
         disconnect = findViewById(R.id.disconnect);
         disconnect.setOnClickListener(new View.OnClickListener() {
@@ -194,7 +200,7 @@ public class ClientActivity extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                wifiClientTask1.sendMessage(text.getText().toString());
+                wifiClientTask.sendMessage(text.getText().toString());
 //                sendMessage(text.getText().toString());
             }
         });
@@ -214,82 +220,14 @@ public class ClientActivity extends AppCompatActivity {
         rv.setAdapter(deviceAdapter);
     }
 
-
     protected void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-
-    /**
-     * 连接线程
-     */
-    class SocketConnectThread extends Thread {
-
-        @Override
-        public void run() {
-            try {
-                //指定ip地址和端口号
-                mSocket = new Socket(wifiP2pInfo.groupOwnerAddress.getHostAddress(), Constants.PORT);
-                //获取输出流、输入流
-//                mOutStream = mSocket.getOutputStream();
-//                mInStream = mSocket.getInputStream();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return;
-            }
-            startReader();
-        }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        wifiP2pHelper.onDestroy();
+        wifiClientTask.clean();
     }
-
-    /**
-     * 发送消息
-     *
-     * @param msg
-     */
-    public void sendMessage(final String msg) {
-//        if (msg.length() == 0) {
-//            return;
-//        }
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    DataOutputStream writer = new DataOutputStream(mSocket.getOutputStream());
-                    writer.writeUTF(msg); // 写一个UTF-8的信息
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
-
-    /**
-     * 接收消息
-     */
-    private void startReader() {
-        new Thread() {
-            @Override
-            public void run() {
-                DataInputStream reader;
-                try {
-                    // 获取读取流
-                    reader = new DataInputStream(mSocket.getInputStream());
-                    while (true) {
-                        // 读取数据
-                        String msg = reader.readUTF();
-                        ClientActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                addLog(msg);
-                            }
-                        });
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
-
 }
