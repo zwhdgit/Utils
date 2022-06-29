@@ -19,7 +19,8 @@ import com.zwh.wifip2putil.callback.DirectActionListener;
 public class WifiP2pHelper {
 
     private Application context;
-    private String TAG;
+
+    private String TAG = getClass().getSimpleName();
 
     public static WifiP2pHelper getInstance() {
         return new WifiP2pHelper();
@@ -29,6 +30,11 @@ public class WifiP2pHelper {
     private WifiP2pManager.Channel channel;
     private DirectBroadcastReceiver broadcastReceiver;
 
+    /**
+     * 初始化 wifiP2pManager相关
+     *
+     * @return false 表示该设备不支持 wifiP2p
+     */
     public boolean init(Application context, DirectActionListener directActionListener) {
         this.context = context;
         wifiP2pManager = (WifiP2pManager) context.getSystemService(Context.WIFI_P2P_SERVICE);
@@ -44,7 +50,7 @@ public class WifiP2pHelper {
 
 
     /**
-     *
+     * 搜索设备
      */
     public void search(WifiP2pManager.ActionListener actionListener) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -59,8 +65,9 @@ public class WifiP2pHelper {
      *
      * @return
      */
+    @SuppressLint("MissingPermission")
     public void connect(WifiP2pDevice mWifiP2pDevice, WifiP2pManager.ActionListener actionListener) {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (checkPer()) {
 //            showToast("请先授予位置权限");
             return;
         }

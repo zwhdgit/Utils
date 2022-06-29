@@ -1,9 +1,7 @@
 package com.zwh.wifip2putil.task;
 
-import android.util.Log;
-
 import com.zwh.wifip2putil.callback.MsgListener;
-import com.zwh.wifip2putil.common.Constants;
+import com.zwh.wifip2putil.common.WifiP2pConstants;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -35,6 +33,15 @@ public class WifiClientTask extends Thread {
         return mSocket != null && !mSocket.isClosed();
     }
 
+//    public ExceptionListener exceptionListener;
+//
+//    public void setExceptionListener(ExceptionListener exceptionListener) {
+//        this.exceptionListener = exceptionListener;
+//    }
+//
+//    public interface ExceptionListener{
+//        void onException();
+//    }
     /**
      * 连接线程
      */
@@ -43,7 +50,7 @@ public class WifiClientTask extends Thread {
     public void run() {
         try {
             //指定ip地址和端口号
-            mSocket = new Socket(address, Constants.PORT);
+            mSocket = new Socket(address, WifiP2pConstants.PORT);
             //获取输出流、输入流
 //                mOutStream = mSocket.getOutputStream();
 //                mInStream = mSocket.getInputStream();

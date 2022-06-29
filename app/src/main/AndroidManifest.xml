@@ -17,6 +17,13 @@
         <activity
             android:name=".test_wifip2p.ClientActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".test_wifip2p.ServiceActivity_1"
+            android:exported="false" />
+        <activity
+            android:name=".test_wifip2p.ClientActivity_1"
+            android:exported="false" />
         <activity
             android:name=".TestActivity"
             android:exported="true">

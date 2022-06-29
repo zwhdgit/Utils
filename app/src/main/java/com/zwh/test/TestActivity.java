@@ -17,7 +17,9 @@ import android.view.View;
 
 import com.zwh.test.databinding.ActivityTestBinding;
 import com.zwh.test.test_wifip2p.ClientActivity;
+import com.zwh.test.test_wifip2p.ClientActivity_1;
 import com.zwh.test.test_wifip2p.ServiceActivity;
+import com.zwh.test.test_wifip2p.ServiceActivity_1;
 import com.zwh.utils.observable.BusMutableLiveData;
 import com.zwh.utils.observable.SingleLiveEvent;
 
@@ -65,13 +67,13 @@ public class TestActivity extends AppCompatActivity {
         binding.bt0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(TestActivity.this, ClientActivity.class));
+                startActivity(new Intent(TestActivity.this, ClientActivity_1.class));
             }
         });
         binding.bt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TestActivity.this, ServiceActivity.class));
+                startActivity(new Intent(TestActivity.this, ServiceActivity_1.class));
             }
         });
     }

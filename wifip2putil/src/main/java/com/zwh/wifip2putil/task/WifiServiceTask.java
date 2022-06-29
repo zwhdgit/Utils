@@ -4,7 +4,7 @@ import android.util.Log;
 
 
 import com.zwh.wifip2putil.callback.MsgListener;
-import com.zwh.wifip2putil.common.Constants;
+import com.zwh.wifip2putil.common.WifiP2pConstants;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -78,7 +78,7 @@ public class WifiServiceTask {
                     Log.e(TAG, "build socket");
                     serverSocket = new ServerSocket();
                     serverSocket.setReuseAddress(true);
-                    serverSocket.bind(new InetSocketAddress(Constants.PORT));
+                    serverSocket.bind(new InetSocketAddress(WifiP2pConstants.PORT));
                     Log.e(TAG, "等待客户端连接");
                     socket = serverSocket.accept();
 //            }
@@ -118,6 +118,14 @@ public class WifiServiceTask {
             try {
                 socket.close();
                 socket = null;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (serverSocket != null && !serverSocket.isClosed()) {
+            try {
+                serverSocket.close();
+                serverSocket = null;
             } catch (IOException e) {
                 e.printStackTrace();
             }
