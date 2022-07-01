@@ -147,8 +147,10 @@ public class ServiceActivity_1 extends AppCompatActivity {
                     if (status == 0) {
                         send.setEnabled(true);
                         curClientDeviceName = wifiP2pDevice.deviceName;
+                        addLog("已连接设备：" + deviceName);
                     } else if (curClientDeviceName.equals(deviceName) && wifiP2pDevice.status == 3) {
                         startConnectTask();
+                        addLog("断开连接设备：" + deviceName);
                         send.setEnabled(false);
                     }
                 }

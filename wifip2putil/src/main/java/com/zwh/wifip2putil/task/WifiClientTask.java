@@ -80,6 +80,7 @@ public class WifiClientTask extends Thread {
 
                     } catch (IOException e) {
                         e.printStackTrace();
+//                        WifiClientTask.this.run();
                     }
                 }
             }

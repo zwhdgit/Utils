@@ -1,6 +1,7 @@
 package com.zwh.test.test_wifip2p;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
@@ -121,10 +122,10 @@ public class ClientActivity_1 extends Activity {
     }
 
 
-    private void addLog(String stringBuilder) {
-        String s = new Date().toString() + "\n" + stringBuilder + "\n******************************************\n" + log.getText().toString();
-        log.setText(s);
-    }
+        private void addLog(String stringBuilder) {
+            String s = new Date().toString() + "\n" + stringBuilder + "\n******************************************\n" + log.getText().toString();
+            log.setText(s);
+        }
 
     private void initView() {
         View search = findViewById(R.id.search);
