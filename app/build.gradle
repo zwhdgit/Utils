@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
 }
+apply plugin: 'kotlin-android'
 
 android {
     compileSdk 30
@@ -44,4 +45,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'io.reactivex.rxjava2:rxjava:2.1.1'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
