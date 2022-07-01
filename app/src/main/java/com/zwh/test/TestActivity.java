@@ -35,12 +35,46 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initView();
 
-        initTestWifiP2p();
+        initThreadTra();
+//        initTestWifiP2p();
 //        testObservableField();
 //        testBusMutableLiveData();
 //        testSingleLiveEvent();
 //        IntentFilter statusFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
 //        registerReceiver(BluBroadcast.mStatusReceive,statusFilter);
+    }
+
+    private void initThreadTra() {
+        binding.bt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println(3 / 0);
+                System.out.println(3 / 1);
+            }
+        });
+    }
+
+
+    public static void main(String[] args) {
+        try {
+            Thread thread = new Thread(new Task());
+            thread.start();
+        } catch (Exception e) {
+            System.out.println("==Exception: " + e.getMessage());
+        }
+    }
+
+    static class Task implements Runnable {
+        @Override
+        public void run() {
+            try {
+                System.out.println(3 / 2);
+                System.out.println(3 / 0);
+                System.out.println(3 / 1);
+            }catch (Exception e){
+                System.out.println("==Exception: " + e.getMessage());
+            }
+        }
     }
 
     private void initView() {
