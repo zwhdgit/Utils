@@ -50,4 +50,8 @@ dependencies {
 
     implementation 'androidx.palette:palette:1.0.0'
 
+    api 'com.google.code.gson:gson:2.8.6'
+
+    implementation 'com.jaeger.statusbarutil:library:1.5.1'
+
 }

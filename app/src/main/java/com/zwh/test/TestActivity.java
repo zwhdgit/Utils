@@ -15,6 +15,9 @@ import android.util.Log;
 import android.view.Choreographer;
 import android.view.View;
 
+import com.google.gson.Gson;
+import com.zwh.test.GsonTest.Lxy;
+import com.zwh.test.GsonTest.Zwh;
 import com.zwh.test.databinding.ActivityTestBinding;
 import com.zwh.test.test_wifip2p.ClientActivity_1;
 import com.zwh.test.test_wifip2p.ServiceActivity_1;
@@ -34,13 +37,32 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initView();
 
-        initThreadTra();
+        testGson();
+//        initThreadTra();
 //        initTestWifiP2p();
 //        testObservableField();
 //        testBusMutableLiveData();
 //        testSingleLiveEvent();
 //        IntentFilter statusFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
 //        registerReceiver(BluBroadcast.mStatusReceive,statusFilter);
+    }
+
+    private void testGson() {
+        binding.bt0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Zwh zwh = new Gson().fromJson("{\"age\":\"12\"}", Zwh.class);
+                Log.e("zwh", "onClick: " + zwh.name);
+            }
+        });
+        binding.bt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Lxy lxy = new Gson().fromJson("{\"age\":\"12\"}", Lxy.class);
+                Log.e("lxy", "onClick: " + lxy.getName());
+            }
+        });
+
     }
 
     private void initThreadTra() {
@@ -70,7 +92,7 @@ public class TestActivity extends AppCompatActivity {
                 System.out.println(3 / 2);
                 System.out.println(3 / 0);
                 System.out.println(3 / 1);
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("==Exception: " + e.getMessage());
             }
         }

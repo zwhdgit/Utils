@@ -17,11 +17,11 @@
             android:name=".title_bar.TitleBarActivity"
             android:exported="true"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".title_bar.TitleBar1Activity"
@@ -33,6 +33,17 @@
 
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".title_bar.TitleBar2Activity"
+            android:exported="true"
+            android:theme="@style/Theme.ImmersiveStatusBarTest"
+            >
+                        <intent-filter>
+                            <action android:name="android.intent.action.MAIN" />
+
+                            <category android:name="android.intent.category.LAUNCHER" />
+                        </intent-filter>
         </activity>
         <activity
             android:name=".test_wifip2p.ServiceActivity"
