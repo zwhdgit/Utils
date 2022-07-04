@@ -1,4 +1,4 @@
-package com.zwh.test;
+package com.zwh.test.viewmodel;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;

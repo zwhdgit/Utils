@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zwh.test">
 
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -13,12 +14,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestActivity">
         <activity
+            android:name=".title_bar.TitleBarActivity"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".title_bar.TitleBar1Activity"
+            android:exported="true"
+            android:theme="@style/Theme.ImmersiveStatusBarTest"
+            >
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
             android:name=".test_wifip2p.ServiceActivity"
             android:exported="false" />
         <activity
             android:name=".test_wifip2p.ClientActivity"
             android:exported="false" />
-
         <activity
             android:name=".test_wifip2p.ServiceActivity_1"
             android:exported="false" />
@@ -28,11 +49,11 @@
         <activity
             android:name=".TestActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
     </application>
 

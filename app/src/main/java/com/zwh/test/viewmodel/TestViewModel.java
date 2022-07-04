@@ -1,4 +1,4 @@
-package com.zwh.test;
+package com.zwh.test.viewmodel;
 
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.ViewModel;

@@ -16,10 +16,9 @@ import android.view.Choreographer;
 import android.view.View;
 
 import com.zwh.test.databinding.ActivityTestBinding;
-import com.zwh.test.test_wifip2p.ClientActivity;
 import com.zwh.test.test_wifip2p.ClientActivity_1;
-import com.zwh.test.test_wifip2p.ServiceActivity;
 import com.zwh.test.test_wifip2p.ServiceActivity_1;
+import com.zwh.test.viewmodel.TestViewModel;
 import com.zwh.utils.observable.BusMutableLiveData;
 import com.zwh.utils.observable.SingleLiveEvent;
 
