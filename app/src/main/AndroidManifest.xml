@@ -37,7 +37,6 @@
         <activity
             android:name=".title_bar.TitleBar2Activity"
             android:exported="true"
-            android:theme="@style/Theme.ImmersiveStatusBarTest"
             >
                         <intent-filter>
                             <action android:name="android.intent.action.MAIN" />

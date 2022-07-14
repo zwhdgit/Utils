@@ -12,6 +12,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.graphics.ColorUtils
 import androidx.palette.graphics.Palette
 import com.zwh.test.R
 

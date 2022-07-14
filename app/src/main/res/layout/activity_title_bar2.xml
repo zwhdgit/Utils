@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dark_image">
+    android:background="#22314E">
 
-    <TextView
+    <Button
+        android:id="@+id/bt0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_FFFFFF"
