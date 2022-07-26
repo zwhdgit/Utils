@@ -1,5 +1,6 @@
 package com.zwh.test.title_bar
 
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
@@ -7,14 +8,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.ColorUtils
+import androidx.lifecycle.ViewModel
 import androidx.palette.graphics.Palette
 import com.zwh.test.R
+import com.zwh.test.viewmodel.TestViewModel
+import dp
 
 /**
  * https://guolin.blog.csdn.net/article/details/123023395?spm=1001.2014.3001.5502
@@ -22,9 +28,20 @@ import com.zwh.test.R
 class TitleBarActivity : AppCompatActivity() {
     lateinit var bgView: ImageView
     val TAG: String = javaClass.simpleName
+
+
+    //    fun getViewModel(): ViewModel {
+//        return TestViewModel()
+//    }
+    fun a(funParam: (Int) -> String): String {
+        return funParam(1)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+//        var b:Float = 11.3
+//        b.dp
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         }
         supportActionBar?.hide()
         super.onCreate(savedInstanceState)

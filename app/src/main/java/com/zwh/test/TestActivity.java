@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableField;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,7 +15,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Choreographer;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.zwh.test.GsonTest.Lxy;
 import com.zwh.test.GsonTest.Zwh;
@@ -24,6 +29,10 @@ import com.zwh.test.test_wifip2p.ServiceActivity_1;
 import com.zwh.test.viewmodel.TestViewModel;
 import com.zwh.utils.observable.BusMutableLiveData;
 import com.zwh.utils.observable.SingleLiveEvent;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -37,14 +46,32 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initView();
 
-        testGson();
+        testLea();
+//        testGson();
 //        initThreadTra();
 //        initTestWifiP2p();
 //        testObservableField();
 //        testBusMutableLiveData();
 //        testSingleLiveEvent();
 //        IntentFilter statusFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+
 //        registerReceiver(BluBroadcast.mStatusReceive,statusFilter);
+    }
+
+    private void testLea() {
+        binding.bt0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.myView.setVisibility(View.VISIBLE);
+//                binding.myView.invalidate();
+            }
+        });
+        binding.bt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.myView.invalidate();
+            }
+        });
     }
 
     private void testGson() {
@@ -75,14 +102,33 @@ public class TestActivity extends AppCompatActivity {
         });
     }
 
-
     public static void main(String[] args) {
-        try {
-            Thread thread = new Thread(new Task());
-            thread.start();
-        } catch (Exception e) {
-            System.out.println("==Exception: " + e.getMessage());
+//        try {
+//            Thread thread = new Thread(new Task());
+//            thread.start();
+//        } catch (Exception e) {
+//            System.out.println("==Exception: " + e.getMessage());
+//        }
+//        BigDecimal b = new BigDecimal(0.1);
+////        double d1 = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+//        System.out.println(b.doubleValue() + "");
+//        System.out.println(b.floatValue() + "");
+//        System.out.println(b + "");
+
+        ObservableField<Integer> tipIcon = new ObservableField<>(0);
+        if (tipIcon.get() != null && tipIcon.get() == 0) {
+            System.out.println("没崩");
+        }else if (tipIcon.get()==null){
+            System.out.println("检测为null");
         }
+        System.out.println("可以");
+
+        List<? super TextView> textViews = new ArrayList<>();
+//        textViews.add(new Bview(null));
+        TextView textView = (TextView) textViews.get(0); // 👈 get 可以
+
+        textViews.add(textView);
+
     }
 
     static class Task implements Runnable {
@@ -184,4 +230,5 @@ public class TestActivity extends AppCompatActivity {
             }
         });
     }
+
 }
