@@ -27,6 +27,7 @@ import com.zwh.test.databinding.ActivityTestBinding;
 import com.zwh.test.test_wifip2p.ClientActivity_1;
 import com.zwh.test.test_wifip2p.ServiceActivity_1;
 import com.zwh.test.viewmodel.TestViewModel;
+import com.zwh.utils.log.OwnUncaughtExceptionHandler;
 import com.zwh.utils.observable.BusMutableLiveData;
 import com.zwh.utils.observable.SingleLiveEvent;
 
@@ -45,7 +46,6 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-
         testLea();
 //        testGson();
 //        initThreadTra();
@@ -62,14 +62,16 @@ public class TestActivity extends AppCompatActivity {
         binding.bt0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.myView.setVisibility(View.VISIBLE);
+//                binding.myView.setVisibility(View.VISIBLE);
 //                binding.myView.invalidate();
+                System.out.println(3 / 0);
             }
         });
         binding.bt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.myView.invalidate();
+//                binding.myView.invalidate();
+                OwnUncaughtExceptionHandler.postLandscapeError("");
             }
         });
     }
@@ -118,7 +120,7 @@ public class TestActivity extends AppCompatActivity {
         ObservableField<Integer> tipIcon = new ObservableField<>(0);
         if (tipIcon.get() != null && tipIcon.get() == 0) {
             System.out.println("没崩");
-        }else if (tipIcon.get()==null){
+        } else if (tipIcon.get() == null) {
             System.out.println("检测为null");
         }
         System.out.println("可以");

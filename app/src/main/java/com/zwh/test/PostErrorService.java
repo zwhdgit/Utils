@@ -1,59 +1,44 @@
-package com.zwh.utils.log;
+package com.zwh.test;
 
+import android.app.Service;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Binder;
+import android.os.IBinder;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.zwh.utils.log.DingDingErrorApi;
+import com.zwh.utils.log.ErrorBean;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * UncaughtExceptionHandler 是一个当线程由于未捕获的异常突然终止而调用处理程序的接口.
- */
-public class OwnUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+public class PostErrorService extends Service {
 
-    //    private String TAG = getClass().getSimpleName();
-    private static String TAG = "OwnUncaughtExceptionHandler";
+    private String TAG = "PostErrorService";
 
+    @Nullable
     @Override
-
-    public void uncaughtException(Thread thread, Throwable ex) {
-
-        StackTraceElement[] elements = ex.getStackTrace();
-
-        StringBuilder reason = new StringBuilder(ex.toString());
-
-        if (elements != null && elements.length > 0) {
-
-            for (StackTraceElement element : elements) {
-
-                reason.append("\n");
-
-                reason.append(element.toString());
-
-            }
-
-        }
-
-//        Log.e(TAG, reason.toString());
-        postLandscapeError(reason.toString());
-
-        System.out.println("uncaughtException");
-
-
-
-
+    public IBinder onBind(Intent intent) {
+        return new Binder();
     }
 
-    public static void postLandscapeError(String s) {
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        String error = intent.getStringExtra("error");
+        postLandscapeError(error);
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+
+    public void postLandscapeError(String s) {
         ErrorBean errorBean = new ErrorBean();
         ErrorBean.TextBean textBean = new ErrorBean.TextBean();
         textBean.setContent("方向盘演示版异常：" + s);
@@ -91,3 +76,5 @@ public class OwnUncaughtExceptionHandler implements Thread.UncaughtExceptionHand
     }
 
 }
+
+
