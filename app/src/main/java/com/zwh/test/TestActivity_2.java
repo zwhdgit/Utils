@@ -12,14 +12,15 @@ import androidx.lifecycle.ViewModelProvider;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.os.MessageQueue;
 import android.util.Log;
 import android.view.Choreographer;
 import android.view.View;
-import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.zwh.test.GsonTest.Lxy;
 import com.zwh.test.GsonTest.Zwh;
@@ -31,11 +32,19 @@ import com.zwh.utils.log.OwnUncaughtExceptionHandler;
 import com.zwh.utils.observable.BusMutableLiveData;
 import com.zwh.utils.observable.SingleLiveEvent;
 
-import java.math.BigDecimal;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class TestActivity extends AppCompatActivity {
+public class TestActivity_2 extends AppCompatActivity {
 
     private SingleLiveEvent<String> singleLiveEvent = new SingleLiveEvent<>();
     private ActivityTestBinding binding;
@@ -46,7 +55,8 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-        testLea();
+        testHandler();
+//        testLea();
 //        testGson();
 //        initThreadTra();
 //        initTestWifiP2p();
@@ -58,14 +68,98 @@ public class TestActivity extends AppCompatActivity {
 //        registerReceiver(BluBroadcast.mStatusReceive,statusFilter);
     }
 
+    private void testHandler() {
+        Handler handler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(@NonNull Message msg) {
+                return false;
+            }
+        });
+
+//        handler1.sendMessage()
+        binding.bt0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    }
+        });
+    }
+
+    private void saveCrashInfo2File(Throwable ex) {
+//        Map<String, String> info = new HashMap<>();
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "test.txt");
+//        File file = new File(getCacheDir(), "test" + "/" + "test.txt");
+        try {
+            boolean newFile = file.createNewFile();
+
+        } catch (Exception e) {
+            Log.e(TAG, "saveCrashInfo2File: " + e.toString());
+        }
+        Log.e(TAG, "saveCrashInfo2File: " + file.exists());
+        StringBuffer sb = new StringBuffer();
+        sb.append(new Date().toString() + "：发生崩溃的异常，设备的信息如下：******************************************************分割线***********************" + "\r\n");
+//        for (Map.Entry<String, String> entry : info.entrySet()) {
+//            String key = entry.getKey();
+//            String value = entry.getValue();
+//            sb.append(key + "\t=\t" + value + "\r\n");
+//        }
+        Writer writer = new StringWriter();
+        PrintWriter pw = new PrintWriter(writer);
+        ex.printStackTrace(pw);
+        Throwable cause = ex.getCause();
+        // 循环着把所有的异常信息写入writer中
+        while (cause != null) {
+            cause.printStackTrace(pw);
+            cause = cause.getCause();
+        }
+        pw.close();// 记得关闭
+        String result = writer.toString();
+        sb.append("发生崩溃的异常信息如下：" + "\r\n");
+        sb.append(result);
+        Log.e("TAG", result);
+        // 保存文件
+        try {
+            //判断文件夹是否存在
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdir();
+            }
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(file, true);
+            fos.write(sb.toString().getBytes("UTF-8"));
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void run() {
+        Log.e(TAG, "run: ");
+        run();
+    }
+
     private void testLea() {
         binding.bt0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                binding.myView.setVisibility(View.VISIBLE);
 //                binding.myView.invalidate();
-                System.out.println(3 / 0);
+//                System.out.println(3 / 0);
+//                saveCrashInfo2File(new Throwable("test崩溃"));
+//                startActivity(new Intent(TestActivity_2.this, TestActivity_2.class));
+//                finish();
+                try {
+//                    run();
+                    Thread.sleep(1000000);
+//                    System.out.println(3/0);
+                } catch (Throwable e) {
+                    Log.e(TAG, "testLea: " + e.toString());
+                    new OwnUncaughtExceptionHandler().uncaughtException(new Thread(), e);
+                }
             }
+
         });
         binding.bt1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +251,7 @@ public class TestActivity extends AppCompatActivity {
         binding.requestPermissions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityCompat.requestPermissions(TestActivity.this,
+                ActivityCompat.requestPermissions(TestActivity_2.this,
                         new String[]{Manifest.permission.CHANGE_NETWORK_STATE,
                                 Manifest.permission.ACCESS_NETWORK_STATE,
 //                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -170,13 +264,13 @@ public class TestActivity extends AppCompatActivity {
         binding.bt0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(TestActivity.this, ClientActivity_1.class));
+                startActivity(new Intent(TestActivity_2.this, ClientActivity_1.class));
             }
         });
         binding.bt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TestActivity.this, ServiceActivity_1.class));
+                startActivity(new Intent(TestActivity_2.this, ServiceActivity_1.class));
             }
         });
     }
@@ -186,7 +280,7 @@ public class TestActivity extends AppCompatActivity {
         binding.bt0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                singleLiveEvent.observe(TestActivity.this, new Observer<String>() {
+                singleLiveEvent.observe(TestActivity_2.this, new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
                         Log.e(TAG, "onChanged: " + s);
@@ -233,4 +327,8 @@ public class TestActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

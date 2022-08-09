@@ -15,7 +15,27 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/black"
-        tools:context=".TestActivity">
+        tools:context=".TestActivity_2">
+
+        <TextClock
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="87dp"
+            android:textColor="@color/color_FFFFFF"
+            android:format12Hour="HH:mm:ss"
+            android:format24Hour="HH:mm:ss"
+             />
+
+        <TextClock
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format12Hour="HH-MM EEEE"
+            android:format24Hour="HH-MM EEEE"
+            android:textColor="@color/color_FFFFFF"
+            app:layout_constraintLeft_toLeftOf="@id/time"
+            app:layout_constraintTop_toBottomOf="@id/time" />
 
         <Button
             android:id="@+id/requestPermissions"
@@ -51,6 +71,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            />
+
+        <com.zwh.test.view.TestView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             />
 
         <com.google.android.material.tabs.TabLayout

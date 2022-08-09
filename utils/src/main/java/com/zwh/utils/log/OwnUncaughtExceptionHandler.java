@@ -49,14 +49,12 @@ public class OwnUncaughtExceptionHandler implements Thread.UncaughtExceptionHand
         System.out.println("uncaughtException");
 
 
-
-
     }
 
     public static void postLandscapeError(String s) {
         ErrorBean errorBean = new ErrorBean();
         ErrorBean.TextBean textBean = new ErrorBean.TextBean();
-        textBean.setContent("方向盘演示版异常：" + s);
+        textBean.setContent("方向盘演示版异常：" + s.substring(0,1000));
         errorBean.setText(textBean);
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -75,7 +73,7 @@ public class OwnUncaughtExceptionHandler implements Thread.UncaughtExceptionHand
 
                     @Override
                     public void onNext(Object value) {
-                        Log.e(TAG, "onNext: ");
+                        Log.e(TAG, "onNext: " + value.toString());
                     }
 
                     @Override

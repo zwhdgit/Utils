@@ -86,6 +86,7 @@ public class MyView extends View implements View.OnClickListener {
         // 缺角
         mPaint.setColor(Color.WHITE);
         canvas.drawCircle(0, mWidth / 2, 20, mPaint);
+//        canvas.drawArc(0.0,mWidth/2,mWidth,mWidth,60);
         canvas.drawCircle(mWidth, mWidth / 2, 20, mPaint);
 
         mPaint.setColor(Color.RED);
