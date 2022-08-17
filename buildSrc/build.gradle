@@ -6,7 +6,7 @@ dependencies {
     implementation localGroovy() //必须
     //如果要使用 android 的 API，需要引用这个，实现 Transform 的时候会用到
     implementation 'com.android.tools.build:gradle:4.1.2'
-    implementation 'cn.quinnchen.hunter:hunter-transform:1.2.3'
+//    implementation 'cn.quinnchen.hunter:hunter-transform:1.2.3'
     //ASM相关依赖
     implementation 'org.ow2.asm:asm:9.2'
     implementation 'org.ow2.asm:asm-commons:9.1'
