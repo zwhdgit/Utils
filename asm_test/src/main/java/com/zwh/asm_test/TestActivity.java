@@ -18,19 +18,16 @@ public class TestActivity extends AppCompatActivity {
         bt0.setText("匿名内部类消息");
         bt0.setOnClickListener(new View.OnClickListener() {
             @Override
-
             public void onClick(View view) {
 //                Log.e(TAG, "onClick: ", );
                 Log.e("TAG", "匿名内部类消息: ");
             }
         });
-//        Lin.setonclick(new onclik)
 
         Button bt1 = findViewById(R.id.bt1);
         bt1.setText("lambda消息");
         bt1.setOnClickListener(view -> Log.e("TAG", "lambda消息: "));
 //        run();
-        new Test().run();
 //        initListener();
     }
 
@@ -39,9 +36,10 @@ public class TestActivity extends AppCompatActivity {
 ////        run1();
 //    }
 
-//    public void run() {
-//        Log.e("TAG", "run: ");
-//    }
+    public void run() {
+//        if (ClickCheck.isFastClick()) return;
+        Log.e("TAG", "run: ");
+    }
 //
 //    public void run1() {
 //        Log.e("TAG", "run: ");

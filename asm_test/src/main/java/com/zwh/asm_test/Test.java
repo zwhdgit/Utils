@@ -10,10 +10,10 @@ public class Test {
 //        new TextView(null).setOnClickListener(v -> {
 //
 //        });
+        run();
     }
-    public void run(){
-        new Thread(()->{
-            Log.e("TAG", "Test run: " );
-        });
+    public static void run(){
+//        if (ClickCheck.isFastClick())return;
+        Log.e("TAG", "run: ");
     }
 }

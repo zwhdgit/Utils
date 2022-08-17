@@ -38,7 +38,8 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
+    implementation project(path: ':utils')
+    implementation project(path: ':wifip2putil')
 
     //ASM相关依赖
     implementation 'org.ow2.asm:asm:9.2'

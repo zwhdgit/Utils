@@ -11,18 +11,27 @@ import java.util.List;
 
 public class ClickMethodVisitor extends MethodVisitor implements Opcodes {
 
-    public boolean isOnclick;
+    public int isOnclick;
     public static Object[] bootstrapMethodArguments;
     public static List<String> lambdaNameList = new ArrayList<>();
+
+    public static final int LAMBDA = 888;
+    public static final int NO_LAMBDA = 999;
 
     public ClickMethodVisitor(MethodVisitor methodVisitor) {
         super(ASM7, methodVisitor);
     }
 
-    public ClickMethodVisitor(MethodVisitor methodVisitor, boolean isOnclick) {
+    public ClickMethodVisitor(MethodVisitor methodVisitor, int isOnclick) {
         super(ASM7, methodVisitor);
         this.isOnclick = isOnclick;
     }
+
+//    @Override
+//    public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
+//        System.out.println("visitAnnotation" + descriptor);
+//        return super.visitAnnotation(descriptor, visible);
+//    }
 
     /**
      * setOnclick 通过 visitInvokeDynamicInsn 调用编译后的lambda方法
@@ -46,25 +55,29 @@ public class ClickMethodVisitor extends MethodVisitor implements Opcodes {
         super.visitInvokeDynamicInsn(name, descriptor, bootstrapMethodHandle, bootstrapMethodArguments);
     }
 
+    public int count;
+
     @Override
     public void visitCode() {
         super.visitCode();
-//        mv.visitVarInsn(ALOAD, 1);
-//        mv.visitMethodInsn(INVOKESTATIC, monitorName,
-//                "shouldDoClick", "(Landroid/view/View;)Z", false);
-//        Label label = new Label();
-//        mv.visitJumpInsn(IFNE, label);
-//        mv.visitInsn(RETURN);
-//        mv.visitLabel(label);
-        if (isOnclick) {
-            System.out.println("visitCode");
-            isOnclick = false;
-            Label label0 = new Label();
-            mv.visitLabel(label0);
-            mv.visitLineNumber(21, label0);
-            mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-            mv.visitLdcInsn("sdasd");
-            mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+        if (isOnclick == NO_LAMBDA) {
+            System.out.println("visitCode:" + count++);
+            isOnclick = 0;
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitMethodInsn(INVOKESTATIC, "com/zwh/asm_test/ClickCheck", "isFastClick", "()Z", false);
+            Label label = new Label();
+            mv.visitJumpInsn(IFNE, label);
+            mv.visitInsn(RETURN);
+            mv.visitLabel(label);
+        } else if (isOnclick == LAMBDA) {
+            System.out.println("visitCode:" + count++);
+            isOnclick = 0;
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitMethodInsn(INVOKESTATIC, "com/zwh/asm_test/ClickCheck", "isFastClick", "()Z", false);
+            Label label = new Label();
+            mv.visitJumpInsn(IFNE, label);
+            mv.visitInsn(RETURN);
+            mv.visitLabel(label);
         }
     }
 }
