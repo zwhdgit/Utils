@@ -1,4 +1,4 @@
-package com.zwh.test.asm_test;
+package com.zwh.asm_test;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;

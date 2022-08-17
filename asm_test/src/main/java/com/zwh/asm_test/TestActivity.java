@@ -1,4 +1,4 @@
-package com.zwh.test.asm_test;
+package com.zwh.asm_test;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,9 +8,7 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.zwh.test.R;
-
-public class AsmTextActivity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

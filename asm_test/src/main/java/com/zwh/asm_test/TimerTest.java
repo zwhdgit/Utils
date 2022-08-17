@@ -1,16 +1,13 @@
-package com.zwh.test.asm_test;
+package com.zwh.asm_test;
 
 import static org.objectweb.asm.ClassReader.EXPAND_FRAMES;
 import static org.objectweb.asm.Opcodes.ASM9;
-
-import android.util.Log;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 

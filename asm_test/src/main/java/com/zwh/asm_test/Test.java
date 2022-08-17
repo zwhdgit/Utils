@@ -1,7 +1,6 @@
-package com.zwh.test.asm_test;
+package com.zwh.asm_test;
 
 import android.util.Log;
-import android.widget.TextView;
 
 public class Test {
     public static void main(String[] args) {

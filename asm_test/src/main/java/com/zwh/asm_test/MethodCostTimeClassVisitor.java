@@ -1,4 +1,4 @@
-package com.zwh.test.asm_test;
+package com.zwh.asm_test;
 
 import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
 import static org.objectweb.asm.Opcodes.ACC_INTERFACE;
@@ -18,7 +18,6 @@ import static org.objectweb.asm.Opcodes.PUTSTATIC;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.AdviceAdapter;
@@ -32,6 +31,7 @@ public class MethodCostTimeClassVisitor extends ClassVisitor {
     public MethodCostTimeClassVisitor(int api, ClassVisitor classVisitor) {
         super(api, classVisitor);
     }
+
     public MethodCostTimeClassVisitor(int api) {
         super(api);
     }
@@ -62,7 +62,7 @@ public class MethodCostTimeClassVisitor extends ClassVisitor {
             boolean isAbstractMethod = (access & ACC_ABSTRACT) != 0; // 抽象
             boolean isNativeMethod = (access & ACC_NATIVE) != 0;    // native
             if (!isAbstractMethod && !isNativeMethod) {
-                mv = new MethodCostTimeAdapter(api, mv, access, name, descriptor, owner,hasTimer);
+                mv = new MethodCostTimeAdapter(api, mv, access, name, descriptor, owner, hasTimer);
                 mv = new MethodEnterAndExitAdapter(api, mv);
             }
         }
@@ -149,7 +149,7 @@ public class MethodCostTimeClassVisitor extends ClassVisitor {
         private Boolean hasInjectCode;
 
         protected MethodCostTimeAdapter(
-                int api, MethodVisitor methodVisitor, int access, String name, String descriptor, String owner,Boolean hasInjectCode
+                int api, MethodVisitor methodVisitor, int access, String name, String descriptor, String owner, Boolean hasInjectCode
         ) {
             super(api, methodVisitor, access, name, descriptor);
             this.owner = owner;
@@ -158,15 +158,15 @@ public class MethodCostTimeClassVisitor extends ClassVisitor {
 
         @Override
         protected void onMethodEnter() {
-            if (hasInjectCode){
+            if (hasInjectCode) {
                 return;
             }
             super.visitInsn(LCONST_0);
-            super.visitFieldInsn(PUTSTATIC,owner,"timer","J");
-            super.visitFieldInsn(GETSTATIC, owner,"timer","J");
-            super.visitMethodInsn(INVOKESTATIC,"java/lang/System","currentTimeMillis","()J",false);
+            super.visitFieldInsn(PUTSTATIC, owner, "timer", "J");
+            super.visitFieldInsn(GETSTATIC, owner, "timer", "J");
+            super.visitMethodInsn(INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
             super.visitInsn(LSUB);
-            super.visitFieldInsn(PUTSTATIC,owner,"timer","J");
+            super.visitFieldInsn(PUTSTATIC, owner, "timer", "J");
 
 //            Label label0 = new Label();
 //            mv.visitLabel(label0);
@@ -179,13 +179,13 @@ public class MethodCostTimeClassVisitor extends ClassVisitor {
 
         @Override
         protected void onMethodExit(int opcode) {
-            if (hasInjectCode){
+            if (hasInjectCode) {
                 return;
             }
-            super.visitFieldInsn(GETSTATIC, owner,"timer","J");
-            super.visitMethodInsn(INVOKESTATIC,"java/lang/System","currentTimeMillis","()J",false);
+            super.visitFieldInsn(GETSTATIC, owner, "timer", "J");
+            super.visitMethodInsn(INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
             super.visitInsn(LADD);
-            super.visitFieldInsn(PUTSTATIC,owner,"timer","J");
+            super.visitFieldInsn(PUTSTATIC, owner, "timer", "J");
 
             super.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
             // 创建一个 StringBuilder
@@ -197,7 +197,7 @@ public class MethodCostTimeClassVisitor extends ClassVisitor {
             super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append",
                     "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
             // append timer value
-            super.visitFieldInsn(GETSTATIC, owner,"timer","J");
+            super.visitFieldInsn(GETSTATIC, owner, "timer", "J");
             super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(J)Ljava/lang/StringBuilder;",
                     false);
 
