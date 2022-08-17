@@ -1,12 +1,16 @@
+import com.zwh.buildsrc.CustomAsmPlugin
+
 plugins {
     id 'com.android.application'
 }
 apply plugin: 'kotlin-android'
-//apply plugin 'asmTest'
+// 在app模块下的build.gradle文件中引用
+apply plugin: CustomAsmPlugin
+//apply plugin "page-monitor"
 //# 名称就是上面的 properties 文件的名称
 
 android {
-    compileSdk 33
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.zwh.test"

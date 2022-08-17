@@ -62,7 +62,7 @@ public class MethodCostTimeClassVisitor extends ClassVisitor {
             boolean isAbstractMethod = (access & ACC_ABSTRACT) != 0; // 抽象
             boolean isNativeMethod = (access & ACC_NATIVE) != 0;    // native
             if (!isAbstractMethod && !isNativeMethod) {
-//                mv = new MethodCostTimeAdapter(api, mv, access, name, descriptor, owner,hasTimer);
+                mv = new MethodCostTimeAdapter(api, mv, access, name, descriptor, owner,hasTimer);
                 mv = new MethodEnterAndExitAdapter(api, mv);
             }
         }
