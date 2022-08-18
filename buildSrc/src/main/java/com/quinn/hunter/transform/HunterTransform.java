@@ -29,8 +29,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by Quinn on 26/02/2017.
- * Transform to modify bytecode
+ * implementation 'cn.quinnchen.hunter:hunter-transform:1.2.3'
+ * 这里想看源码就拷过来了
  */
 public class HunterTransform extends Transform {
 
@@ -55,27 +55,50 @@ public class HunterTransform extends Transform {
         this.worker = Schedulers.IO();
     }
 
+    // 代表 Transform 对于的 task 名称
     @Override
     public String getName() {
         return this.getClass().getSimpleName();
     }
+
+    //  指定 Transform 要处理的数据类型，可以作为输入过滤的一种手段。
+    //  在 TransformManager 中定义了很多类型：
+
+    //  CONTENT_CLASS // 代表 javac 编译成的 class 文件，可能是 jar 也可能是目录。
+    //  CONTENT_JARS
+    //  CONTENT_RESOURCES // 表示处理标准的 java 资源
+    //  CONTENT_NATIVE_LIBS
+    //  CONTENT_DEX
+    //  CONTENT_DEX_WITH_RESOURCES
+    //  DATA_BINDING_BASE_CLASS_LOG_ARTIFACT
 
     @Override
     public Set<QualifiedContent.ContentType> getInputTypes() {
         return TransformManager.CONTENT_CLASS;
     }
 
+    // Transform 要操作的内容范围
+    // 1.PROJECT 只有项目内容
+    // 2.SUB_PROJECTS 只有子项目内容
+    // 3.EXTERNAL_LIBRARIES 只有外部库
+    // 4.TESTED_CODE 当前变量（包括依赖项）测试的代码
+    // 5.PROVIDED_ONLY 本地或者员村依赖项
     @Override
     public Set<QualifiedContent.Scope> getScopes() {
         return SCOPES;
     }
 
+    // 是否增量编译
     @Override
     public boolean isIncremental() {
         return true;
     }
 
-
+    /**
+     * @param inputs TransformInput 是指这些输入文件的一个抽象，包含两个部分
+     *               DirectoryInput 集合 是指以源代码方式参与项目编译的所有目录结构及其目录下的源代码
+     *               JarInput 集合 是指以 jar 包方式参与项目编译的本地 jar 包和远程 jar 包，包含 aar
+     */
     @SuppressWarnings("deprecation")
     @Override
     public void transform(Context context,

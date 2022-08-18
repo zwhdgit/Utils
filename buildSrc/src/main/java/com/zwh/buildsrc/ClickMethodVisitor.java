@@ -14,9 +14,9 @@ public class ClickMethodVisitor extends MethodVisitor implements Opcodes {
 
     public int isOnclick;
     private boolean noCheckClick;
+
     public static Object[] bootstrapMethodArguments;
     public static List<String> lambdaNameList = new ArrayList<>();
-
     public static final int LAMBDA = 888;
     public static final int NO_LAMBDA = 999;
 
@@ -65,14 +65,11 @@ public class ClickMethodVisitor extends MethodVisitor implements Opcodes {
         super.visitInvokeDynamicInsn(name, descriptor, bootstrapMethodHandle, bootstrapMethodArguments);
     }
 
-    public int count;
-
     @Override
     public void visitCode() {
         super.visitCode();
         if (!noCheckClick) {
             if (isOnclick == NO_LAMBDA) {
-                System.out.println("visitCode:" + count++);
                 isOnclick = 0;
                 mv.visitVarInsn(ALOAD, 1);
                 mv.visitMethodInsn(INVOKESTATIC, "com/zwh/asm_test/ClickCheck", "isValidClick", "()Z", false);
@@ -81,7 +78,6 @@ public class ClickMethodVisitor extends MethodVisitor implements Opcodes {
                 mv.visitInsn(RETURN);
                 mv.visitLabel(label);
             } else if (isOnclick == LAMBDA) {
-                System.out.println("visitCode:" + count++);
                 isOnclick = 0;
                 mv.visitVarInsn(ALOAD, 0);
                 mv.visitMethodInsn(INVOKESTATIC, "com/zwh/asm_test/ClickCheck", "isValidClick", "()Z", false);

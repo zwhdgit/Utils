@@ -13,7 +13,6 @@ public class Asm {
      * 在创建 ClassWriter 对象的时候，要指定一个 flags参数：
      * ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
      *
-     * -   `0`：
      *
      * ASM不会自动计算max stacks和max locals，也不会自动计算stack map frames。
      *
