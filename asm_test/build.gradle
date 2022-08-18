@@ -1,9 +1,7 @@
-import com.zwh.buildsrc.CustomAsmPlugin
-
 plugins {
     id 'com.android.application'
 }
-apply plugin: CustomAsmPlugin
+apply plugin: com.zwh.buildsrc.CustomAsmPlugin
 
 android {
     compileSdkVersion 33
