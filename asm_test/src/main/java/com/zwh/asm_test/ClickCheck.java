@@ -6,7 +6,7 @@ public class ClickCheck {
 
     public static long preClickTime = 0;
 
-    public static boolean isFastClick() {
+    public static boolean isValidClick() {
         final long now = System.currentTimeMillis();
         if (now - preClickTime > FROZEN_MILLIS) {
             preClickTime = now;

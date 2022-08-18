@@ -1,6 +1,7 @@
 package com.zwh.buildsrc;
 
 
+import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -12,6 +13,7 @@ import java.util.List;
 public class ClickMethodVisitor extends MethodVisitor implements Opcodes {
 
     public int isOnclick;
+    private boolean noCheckClick;
     public static Object[] bootstrapMethodArguments;
     public static List<String> lambdaNameList = new ArrayList<>();
 
@@ -27,11 +29,19 @@ public class ClickMethodVisitor extends MethodVisitor implements Opcodes {
         this.isOnclick = isOnclick;
     }
 
-//    @Override
-//    public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-//        System.out.println("visitAnnotation" + descriptor);
-//        return super.visitAnnotation(descriptor, visible);
-//    }
+    /**
+     * 此方法用户访问注解
+     *
+     * @param descriptor 可以理解为包路径
+     */
+    @Override
+    public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
+        System.out.println("visitAnnotation" + descriptor);
+        if (descriptor.equals("Lcom/zwh/asm_test/NoCheckClick;")) {
+            noCheckClick = true;
+        }
+        return super.visitAnnotation(descriptor, visible);
+    }
 
     /**
      * setOnclick 通过 visitInvokeDynamicInsn 调用编译后的lambda方法
@@ -42,7 +52,7 @@ public class ClickMethodVisitor extends MethodVisitor implements Opcodes {
     @Override
     public void visitInvokeDynamicInsn(String name, String descriptor, Handle bootstrapMethodHandle, Object... bootstrapMethodArguments) {
         if (name.equals("onClick")) {
-            this.bootstrapMethodArguments = bootstrapMethodArguments;
+            ClickMethodVisitor.bootstrapMethodArguments = bootstrapMethodArguments;
             for (Object bootstrapMethodArgument : bootstrapMethodArguments) {
                 if (bootstrapMethodArgument instanceof Handle) {
                     String name1 = ((Handle) bootstrapMethodArgument).getName();
@@ -60,24 +70,26 @@ public class ClickMethodVisitor extends MethodVisitor implements Opcodes {
     @Override
     public void visitCode() {
         super.visitCode();
-        if (isOnclick == NO_LAMBDA) {
-            System.out.println("visitCode:" + count++);
-            isOnclick = 0;
-            mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKESTATIC, "com/zwh/asm_test/ClickCheck", "isFastClick", "()Z", false);
-            Label label = new Label();
-            mv.visitJumpInsn(IFNE, label);
-            mv.visitInsn(RETURN);
-            mv.visitLabel(label);
-        } else if (isOnclick == LAMBDA) {
-            System.out.println("visitCode:" + count++);
-            isOnclick = 0;
-            mv.visitVarInsn(ALOAD, 0);
-            mv.visitMethodInsn(INVOKESTATIC, "com/zwh/asm_test/ClickCheck", "isFastClick", "()Z", false);
-            Label label = new Label();
-            mv.visitJumpInsn(IFNE, label);
-            mv.visitInsn(RETURN);
-            mv.visitLabel(label);
+        if (!noCheckClick) {
+            if (isOnclick == NO_LAMBDA) {
+                System.out.println("visitCode:" + count++);
+                isOnclick = 0;
+                mv.visitVarInsn(ALOAD, 1);
+                mv.visitMethodInsn(INVOKESTATIC, "com/zwh/asm_test/ClickCheck", "isValidClick", "()Z", false);
+                Label label = new Label();
+                mv.visitJumpInsn(IFNE, label);
+                mv.visitInsn(RETURN);
+                mv.visitLabel(label);
+            } else if (isOnclick == LAMBDA) {
+                System.out.println("visitCode:" + count++);
+                isOnclick = 0;
+                mv.visitVarInsn(ALOAD, 0);
+                mv.visitMethodInsn(INVOKESTATIC, "com/zwh/asm_test/ClickCheck", "isValidClick", "()Z", false);
+                Label label = new Label();
+                mv.visitJumpInsn(IFNE, label);
+                mv.visitInsn(RETURN);
+                mv.visitLabel(label);
+            }
         }
     }
 }

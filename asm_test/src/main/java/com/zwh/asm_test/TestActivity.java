@@ -18,6 +18,7 @@ public class TestActivity extends AppCompatActivity {
         bt0.setText("匿名内部类消息");
         bt0.setOnClickListener(new View.OnClickListener() {
             @Override
+            @NoCheckClick
             public void onClick(View view) {
 //                Log.e(TAG, "onClick: ", );
                 Log.e("TAG", "匿名内部类消息: ");
