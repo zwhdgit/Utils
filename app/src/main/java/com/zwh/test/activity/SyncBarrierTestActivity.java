@@ -1,4 +1,4 @@
-package com.zwh.test;
+package com.zwh.test.activity;
 
 import android.content.Intent;
 import android.os.Build;
@@ -16,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.zwh.test.R;
 import com.zwh.test.databinding.ActivityTestBinding;
 
 import java.lang.reflect.Method;

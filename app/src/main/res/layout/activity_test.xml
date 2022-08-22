@@ -13,19 +13,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@color/black"
-        tools:context=".TestActivity_2">
+        android:orientation="vertical"
+        tools:context=".activity.TestActivity_2">
+
+        <include
+            android:id="@+id/page"
+            layout="@layout/page_screen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
 
         <TextClock
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="87dp"
-            android:textColor="@color/color_FFFFFF"
             android:format12Hour="HH:mm:ss"
             android:format24Hour="HH:mm:ss"
-             />
+            android:textColor="@color/color_FFFFFF" />
 
         <TextClock
             android:id="@+id/date"
@@ -41,7 +48,7 @@
             android:id="@+id/requestPermissions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="请求权限"/>
+            android:text="请求权限" />
 
         <Button
             android:id="@+id/bt0"
@@ -66,22 +73,24 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.zwh.utils.view.MyView
-            android:id="@+id/myView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            />
+<!--        <com.zwh.utils.view.MyView-->
+<!--            android:id="@+id/myView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="gone" />-->
 
-        <com.zwh.test.view.TestView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+<!--        <com.zwh.test.view.TestView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            />-->
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+<!--        <com.google.android.material.tabs.TabLayout-->
+<!--            android:id="@+id/tab"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content" />-->
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </layout>

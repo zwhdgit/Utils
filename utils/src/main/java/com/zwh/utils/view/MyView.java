@@ -32,81 +32,81 @@ public class MyView extends View implements View.OnClickListener {
         setOnClickListener(this);
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        mPaint.setColor(Color.YELLOW);
-        mPaint.setStyle(Paint.Style.STROKE);
-        //设置边缘锯齿
-        mPaint.setAntiAlias(true);
-        mPaint.setStrokeWidth(3);
-//        canvas.drawCircle(mWidth / 2, mWidth / 2, mWidth / 2, mPaint);
-        RectF rectF = new RectF(0, 0, mWidth, mWidth);
-        mPaint.setStyle(Paint.Style.FILL);
-        for (int i = 0; i < colors.length; i++) {
-            //给扇形填充颜色
-//            mPaint.setColor(colors[i]);
-            mPaint.setColor(Color.parseColor(colors[i]));
-            int startjd = i * 60;
-            //参数的意思  画扇形    开始的角度    结束的角度     是否有中心    画笔
-            canvas.drawArc(rectF, startjd, 60, true, mPaint);
-//            canvas.drawCircle();
-        }
-        for (int i = 0; i < colors.length; i++) {
-            //给扇形填充颜色
-//            mPaint.setColor(colors[i]);
-            mPaint.setColor(Color.parseColor(colors[i]));
-            int startjd = i * 60;
-            //参数的意思  画扇形    开始的角度    结束的角度     是否有中心    画笔
-            canvas.drawArc(rectF, startjd, 60, true, mPaint);
-//            canvas.drawCircle();
-        }
-        for (int i = 0; i < colors.length; i++) {
-            //给扇形填充颜色
-//            mPaint.setColor(colors[i]);
-            mPaint.setColor(Color.parseColor(colors[i]));
-            int startjd = i * 60;
-            //参数的意思  画扇形    开始的角度    结束的角度     是否有中心    画笔
-            canvas.drawArc(rectF, startjd, 60, true, mPaint);
-//            canvas.drawCircle();
-        }
-        //字体颜色
-        mPaint.setColor(Color.BLACK);
-        //字体大小
-        mPaint.setTextSize(24);
-        //进行循环
-        for (int i = 0; i < contents.length; i++) {
-            int startjd = i * 60;
-            //设定文字的路径
-            Path path = new Path();
-            path.addArc(rectF, startjd, 60);
-            canvas.drawTextOnPath(contents[i], path, 50, 50, mPaint);
-        }
-
-        // 缺角
-        mPaint.setColor(Color.WHITE);
-        canvas.drawCircle(0, mWidth / 2, 20, mPaint);
-//        canvas.drawArc(0.0,mWidth/2,mWidth,mWidth,60);
-        canvas.drawCircle(mWidth, mWidth / 2, 20, mPaint);
-
-        mPaint.setColor(Color.RED);
-        canvas.drawCircle(mWidth / 2, mWidth / 2, 50, mPaint);
-        mPaint.setColor(Color.BLUE);
-        mPaint.setTextSize(24);
-        //要得到我们写的字的高和宽
-        Rect rect = new Rect();
-        mPaint.getTextBounds(mStr, 0, mStr.length(), rect);
-        int width = rect.width();
-        int height = rect.height();
-        canvas.drawText(mStr, mWidth / 2 - width / 2, mWidth / 2 + height / 2, mPaint);
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(300, 300);
-        //得到测量过后的高和宽
-        mWidth = getMeasuredWidth();
-    }
+//    @Override
+//    protected void onDraw(Canvas canvas) {
+//        super.onDraw(canvas);
+//        mPaint.setColor(Color.YELLOW);
+//        mPaint.setStyle(Paint.Style.STROKE);
+//        //设置边缘锯齿
+//        mPaint.setAntiAlias(true);
+//        mPaint.setStrokeWidth(3);
+////        canvas.drawCircle(mWidth / 2, mWidth / 2, mWidth / 2, mPaint);
+//        RectF rectF = new RectF(0, 0, mWidth, mWidth);
+//        mPaint.setStyle(Paint.Style.FILL);
+//        for (int i = 0; i < colors.length; i++) {
+//            //给扇形填充颜色
+////            mPaint.setColor(colors[i]);
+//            mPaint.setColor(Color.parseColor(colors[i]));
+//            int startjd = i * 60;
+//            //参数的意思  画扇形    开始的角度    结束的角度     是否有中心    画笔
+//            canvas.drawArc(rectF, startjd, 60, true, mPaint);
+////            canvas.drawCircle();
+//        }
+//        for (int i = 0; i < colors.length; i++) {
+//            //给扇形填充颜色
+////            mPaint.setColor(colors[i]);
+//            mPaint.setColor(Color.parseColor(colors[i]));
+//            int startjd = i * 60;
+//            //参数的意思  画扇形    开始的角度    结束的角度     是否有中心    画笔
+//            canvas.drawArc(rectF, startjd, 60, true, mPaint);
+////            canvas.drawCircle();
+//        }
+//        for (int i = 0; i < colors.length; i++) {
+//            //给扇形填充颜色
+////            mPaint.setColor(colors[i]);
+//            mPaint.setColor(Color.parseColor(colors[i]));
+//            int startjd = i * 60;
+//            //参数的意思  画扇形    开始的角度    结束的角度     是否有中心    画笔
+//            canvas.drawArc(rectF, startjd, 60, true, mPaint);
+////            canvas.drawCircle();
+//        }
+//        //字体颜色
+//        mPaint.setColor(Color.BLACK);
+//        //字体大小
+//        mPaint.setTextSize(24);
+//        //进行循环
+//        for (int i = 0; i < contents.length; i++) {
+//            int startjd = i * 60;
+//            //设定文字的路径
+//            Path path = new Path();
+//            path.addArc(rectF, startjd, 60);
+//            canvas.drawTextOnPath(contents[i], path, 50, 50, mPaint);
+//        }
+//
+//        // 缺角
+//        mPaint.setColor(Color.WHITE);
+//        canvas.drawCircle(0, mWidth / 2, 20, mPaint);
+////        canvas.drawArc(0.0,mWidth/2,mWidth,mWidth,60);
+//        canvas.drawCircle(mWidth, mWidth / 2, 20, mPaint);
+//
+//        mPaint.setColor(Color.RED);
+//        canvas.drawCircle(mWidth / 2, mWidth / 2, 50, mPaint);
+//        mPaint.setColor(Color.BLUE);
+//        mPaint.setTextSize(24);
+//        //要得到我们写的字的高和宽
+//        Rect rect = new Rect();
+//        mPaint.getTextBounds(mStr, 0, mStr.length(), rect);
+//        int width = rect.width();
+//        int height = rect.height();
+//        canvas.drawText(mStr, mWidth / 2 - width / 2, mWidth / 2 + height / 2, mPaint);
+//    }
+//
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        setMeasuredDimension(300, 300);
+//        //得到测量过后的高和宽
+//        mWidth = getMeasuredWidth();
+//    }
 
     @Override
     public void onClick(View v) {

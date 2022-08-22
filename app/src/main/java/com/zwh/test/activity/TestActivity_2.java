@@ -1,4 +1,4 @@
-package com.zwh.test;
+package com.zwh.test.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,8 +14,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
-import android.os.MessageQueue;
 import android.util.Log;
 import android.view.Choreographer;
 import android.view.View;
@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.zwh.test.GsonTest.Lxy;
 import com.zwh.test.GsonTest.Zwh;
+import com.zwh.test.R;
 import com.zwh.test.databinding.ActivityTestBinding;
 import com.zwh.test.test_wifip2p.ClientActivity_1;
 import com.zwh.test.test_wifip2p.ServiceActivity_1;
@@ -39,7 +40,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,9 +48,16 @@ public class TestActivity_2 extends AppCompatActivity {
 
     private SingleLiveEvent<String> singleLiveEvent = new SingleLiveEvent<>();
     private ActivityTestBinding binding;
-    private String TAG = getClass().getSimpleName();
+    private volatile String TAG = getClass().getSimpleName();
     ;
 
+    Handler handler =new Handler(Looper.getMainLooper(), new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+            handler.sendEmptyMessage(0);
+            return false;
+        }
+    });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
