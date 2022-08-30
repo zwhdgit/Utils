@@ -1,6 +1,8 @@
 package com.zwh.test;
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
@@ -18,15 +20,32 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+
 public class MyApplication extends Application implements Thread.UncaughtExceptionHandler {
 
 
     private String TAG;
 
+    public static String SCREEN_CAPTURE_CHANNEL_ID = "Screen Capture ID";
+    public static String SCREEN_CAPTURE_CHANNEL_NAME = "Screen Capture";
+
     @Override
     public void onCreate() {
         super.onCreate();
-        Thread.setDefaultUncaughtExceptionHandler(this::uncaughtException);
+//        Thread.setDefaultUncaughtExceptionHandler(this::uncaughtException);
+        createScreenCaptureNotificationChannel();
+    }
+
+    private void createScreenCaptureNotificationChannel() {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // Create the channel for the notification
+        NotificationChannel screenCaptureChannel = new NotificationChannel(SCREEN_CAPTURE_CHANNEL_ID, SCREEN_CAPTURE_CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW);
+        // Set the Notification Channel for the Notification Manager.
+        notificationManager.createNotificationChannel(screenCaptureChannel);
+
     }
 
     @Override

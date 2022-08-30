@@ -1,13 +1,12 @@
 plugins {
     id 'com.android.application'
 }
-apply plugin: com.zwh.buildsrc.CustomAsmPlugin
 
 android {
     compileSdkVersion 33
 
     defaultConfig {
-        applicationId "com.zwh.asm_test"
+        applicationId "com.zwh.bugly_test"
         minSdkVersion 23
         targetSdkVersion 33
         versionCode 1
@@ -36,10 +35,4 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation project(path: ':utils')
-    implementation project(path: ':wifip2putil')
-
-    //ASM相关依赖
-    implementation 'org.ow2.asm:asm:9.2'
-    implementation 'org.ow2.asm:asm-commons:9.1'
 }
