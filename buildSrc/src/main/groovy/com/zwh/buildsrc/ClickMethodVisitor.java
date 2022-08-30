@@ -14,9 +14,9 @@ public class ClickMethodVisitor extends MethodVisitor implements Opcodes {
 
     public int isOnclick;
     private boolean noCheckClick;
+
     public static Object[] bootstrapMethodArguments;
     public static List<String> lambdaNameList = new ArrayList<>();
-
     public static final int LAMBDA = 888;
     public static final int NO_LAMBDA = 999;
 
@@ -36,7 +36,7 @@ public class ClickMethodVisitor extends MethodVisitor implements Opcodes {
      */
     @Override
     public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-        System.out.println("visitAnnotation" + descriptor);
+//        System.out.println("visitAnnotation" + descriptor);
         if (descriptor.equals("Lcom/zwh/asm_test/NoCheckClick;")) {
             noCheckClick = true;
         }
@@ -49,9 +49,12 @@ public class ClickMethodVisitor extends MethodVisitor implements Opcodes {
      * new Object[]{Type.getType("(Landroid/view/View;)V"), new Handle(Opcodes.H_INVOKESTATIC, "com/zwh/test/asm_test/AsmTextActivity", "lambda$onCreate$0", "(Landroid/view/View;)V", false), Type.getType("(Landroid/view/View;)V")});
      * 可通过bootstrapMethodArguments获取编译后的lambda方法名,前提是没有人手动起名类似 lambda$onCreate$0
      */
+
+
     @Override
     public void visitInvokeDynamicInsn(String name, String descriptor, Handle bootstrapMethodHandle, Object... bootstrapMethodArguments) {
-        if (name.equals("onClick")) {
+        if (name.equals("onClick") && descriptor.contains("Landroid/view/View$OnClickListener;")) {
+//            System.out.println("visitInvokeDynamicInsn" + descriptor + "////");
             ClickMethodVisitor.bootstrapMethodArguments = bootstrapMethodArguments;
             for (Object bootstrapMethodArgument : bootstrapMethodArguments) {
                 if (bootstrapMethodArgument instanceof Handle) {
@@ -65,26 +68,13 @@ public class ClickMethodVisitor extends MethodVisitor implements Opcodes {
         super.visitInvokeDynamicInsn(name, descriptor, bootstrapMethodHandle, bootstrapMethodArguments);
     }
 
-    public int count;
-
     @Override
     public void visitCode() {
         super.visitCode();
         if (!noCheckClick) {
-            if (isOnclick == NO_LAMBDA) {
-                System.out.println("visitCode:" + count++);
-                isOnclick = 0;
-                mv.visitVarInsn(ALOAD, 1);
-                mv.visitMethodInsn(INVOKESTATIC, "com/zwh/asm_test/ClickCheck", "isValidClick", "()Z", false);
-                Label label = new Label();
-                mv.visitJumpInsn(IFNE, label);
-                mv.visitInsn(RETURN);
-                mv.visitLabel(label);
-            } else if (isOnclick == LAMBDA) {
-                System.out.println("visitCode:" + count++);
-                isOnclick = 0;
-                mv.visitVarInsn(ALOAD, 0);
-                mv.visitMethodInsn(INVOKESTATIC, "com/zwh/asm_test/ClickCheck", "isValidClick", "()Z", false);
+            if (isOnclick == NO_LAMBDA || isOnclick == LAMBDA) {
+//                System.out.println("NO_LAMBDA");
+                mv.visitMethodInsn(INVOKESTATIC, "com/baec/library_common/view/ClickCheck", "isValidClick", "()Z", false);
                 Label label = new Label();
                 mv.visitJumpInsn(IFNE, label);
                 mv.visitInsn(RETURN);

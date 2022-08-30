@@ -8,7 +8,7 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TestActivity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -18,7 +18,6 @@ public class TestActivity extends AppCompatActivity {
         bt0.setText("匿名内部类消息");
         bt0.setOnClickListener(new View.OnClickListener() {
             @Override
-            @NoCheckClick
             public void onClick(View view) {
 //                Log.e(TAG, "onClick: ", );
                 Log.e("TAG", "匿名内部类消息: ");
@@ -30,6 +29,10 @@ public class TestActivity extends AppCompatActivity {
         bt1.setOnClickListener(view -> Log.e("TAG", "lambda消息: "));
 //        run();
 //        initListener();
+
+        Button bt2 = findViewById(R.id.bt2);
+        bt2.setText("implements View.OnClickListener");
+        bt2.setOnClickListener(this::onClick);
     }
 
 //    private void initListener() {
@@ -40,6 +43,11 @@ public class TestActivity extends AppCompatActivity {
     public void run() {
 //        if (ClickCheck.isFastClick()) return;
         Log.e("TAG", "run: ");
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.e("TAG", "onClick: ");
     }
 //
 //    public void run1() {

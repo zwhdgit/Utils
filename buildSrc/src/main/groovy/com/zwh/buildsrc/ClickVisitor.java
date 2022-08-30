@@ -38,6 +38,7 @@ public class ClickVisitor extends ClassVisitor implements Opcodes {
 //            System.out.println(s);
             return new ClickMethodVisitor(methodVisitor, ClickMethodVisitor.NO_LAMBDA);
         } else if (isLambdaOnclick(access, methodName, descriptor)) {
+//            System.out.println("LAMBDA: access=" + access + ",methodName=" + methodName + ",descriptor=" + descriptor);
             return new ClickMethodVisitor(methodVisitor, ClickMethodVisitor.LAMBDA);
         }
         return new ClickMethodVisitor(methodVisitor);
@@ -45,11 +46,16 @@ public class ClickVisitor extends ClassVisitor implements Opcodes {
 
     private boolean isViewOnclickMethod(int access, String name, String desc) {
         return
-//                ((access & ACC_PUBLIC) != 0 && (access & ACC_STATIC) == 0 & (access & ACC_ABSTRACT) == 0) &&
-                name.equals("onClick") && desc.equals("(Landroid/view/View;)V");
+                ((access & ACC_PUBLIC) != 0 && (access & ACC_STATIC) == 0 & (access & ACC_ABSTRACT) == 0) &&
+                        name.equals("onClick") && desc.equals("(Landroid/view/View;)V");
     }
 
+    /**
+     * 没有对 access 进行判断
+     * ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC
+     */
     public boolean isLambdaOnclick(int access, String name, String desc) {
-        return ClickMethodVisitor.lambdaNameList.contains(name) && desc.equals("(Landroid/view/View;)V");
+        return ClickMethodVisitor.lambdaNameList.contains(name);
+//                && desc.equals("(Landroid/view/View;)V");
     }
 }
