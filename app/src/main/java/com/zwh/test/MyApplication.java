@@ -9,6 +9,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.zwh.utils.ToastUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,12 +19,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 
 public class MyApplication extends Application implements Thread.UncaughtExceptionHandler {
 
@@ -37,6 +33,7 @@ public class MyApplication extends Application implements Thread.UncaughtExcepti
         super.onCreate();
 //        Thread.setDefaultUncaughtExceptionHandler(this::uncaughtException);
         createScreenCaptureNotificationChannel();
+        ToastUtils.init(this);
     }
 
     private void createScreenCaptureNotificationChannel() {
