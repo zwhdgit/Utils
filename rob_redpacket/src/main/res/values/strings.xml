@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">抢红包</string>
+    <string name="accessibility_description">自助抢红包</string>
+
+
+    <string name="wechart">微信红包服务</string>
+    <string name="qq">QQ红包服务</string>
+    <string name="description_in_manifest">Description in manifest</string>
+    <string name="description_in_xml">Description in xml</string>
+</resources>

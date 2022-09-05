@@ -7,6 +7,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Code/Utils/app/src/main/res/drawable/ic_launcher_background.xml" value="0.12777777777777777" />
         <entry key="..\:/Code/Utils/app/src/main/res/layout/activity_main.xml" value="0.17708333333333334" />
         <entry key="..\:/Code/Utils/app/src/main/res/layout/activity_send.xml" value="0.19166666666666668" />
         <entry key="..\:/Code/Utils/app/src/main/res/layout/activity_service.xml" value="0.19166666666666668" />
@@ -19,6 +20,10 @@
         <entry key="..\:/Code/Utils/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2078125" />
         <entry key="..\:/Code/Utils/app/src/main/res/xml/accessibility_config.xml" value="0.19166666666666668" />
         <entry key="..\:/Code/Utils/asm_test/src/main/res/layout/activity_test.xml" value="0.1" />
+        <entry key="..\:/Code/Utils/rob_redpacket/src/main/res/layout/activity_main.xml" value="0.19166666666666668" />
+        <entry key="..\:/Code/Utils/rob_redpacket/src/main/res/xml/accessibility_config.xml" value="0.19166666666666668" />
+        <entry key="..\:/Code/Utils/rob_redpacket/src/main/res/xml/envelope_service_config.xml" value="0.1" />
+        <entry key="..\:/Code/Utils/rob_redpacket/src/main/res/xml/text_server_config.xml" value="0.1390625" />
       </map>
     </option>
   </component>
