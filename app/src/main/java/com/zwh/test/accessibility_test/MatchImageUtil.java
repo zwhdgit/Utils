@@ -38,8 +38,8 @@ public class MatchImageUtil {
 //        System.out.println("loaded=" + loaded);
 //        filePath = "src/main/res/drawable/ic0.jpg";
 //        filePath1 = "D:\\Code\\Utils\\app\\src\\main\\res\\drawable\\ic1.png";
-        Bitmap bitmap = drawableToBitamp(r.getDrawable(R.drawable.ic0));
-        Bitmap bitmap1 = drawableToBitamp(r.getDrawable(R.drawable.ic1));
+        Bitmap bitmap = drawableToBitamp(r.getDrawable(R.drawable.bg0));
+        Bitmap bitmap1 = drawableToBitamp(r.getDrawable(R.drawable.bg0));
 
         if (mat == null) {
             Bitmap bit = bitmap.copy(Bitmap.Config.ARGB_8888, false);
