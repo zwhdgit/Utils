@@ -35,6 +35,7 @@ public class MyApplication extends Application implements Thread.UncaughtExcepti
 //        Thread.setDefaultUncaughtExceptionHandler(this::uncaughtException);
         createScreenCaptureNotificationChannel();
         ToastUtils.init(this);
+//        VariantInit.init(this);
         initDokit();
     }
 
