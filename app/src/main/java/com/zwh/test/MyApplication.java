@@ -9,6 +9,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.zwh.utils.ToastUtils;
 
 import java.io.File;
@@ -34,6 +35,14 @@ public class MyApplication extends Application implements Thread.UncaughtExcepti
 //        Thread.setDefaultUncaughtExceptionHandler(this::uncaughtException);
         createScreenCaptureNotificationChannel();
         ToastUtils.init(this);
+        initDokit();
+    }
+
+    private void initDokit() {
+        new DoKit.Builder(this)
+                .productId("749a0600b5e48dd77cf8ee680be7b1b7")
+                .build();
+
     }
 
     private void createScreenCaptureNotificationChannel() {

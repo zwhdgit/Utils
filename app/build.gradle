@@ -73,8 +73,8 @@ dependencies {
 
 
 //    //核心模块
-//    releaseImplementation "io.github.didi.dokit:dokitx-no-op:${dokit_version}"
-//    debugImplementation "io.github.didi.dokit:dokitx:${dokit_version}"
+    releaseImplementation "io.github.didi.dokit:dokitx-no-op:${dokit_version}"
+    debugImplementation "io.github.didi.dokit:dokitx:${dokit_version}"
 
 
 }
