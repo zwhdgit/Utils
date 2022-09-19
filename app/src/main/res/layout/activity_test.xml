@@ -92,5 +92,12 @@
             android:id="@+id/iv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            />
+
     </LinearLayout>
 </layout>

@@ -1,16 +1,8 @@
 package com.zwh.test.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ObservableField;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -21,6 +13,16 @@ import android.view.Choreographer;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.Gson;
 import com.zwh.test.GsonTest.Lxy;
 import com.zwh.test.GsonTest.Zwh;
@@ -29,6 +31,7 @@ import com.zwh.test.databinding.ActivityTestBinding;
 import com.zwh.test.test_wifip2p.ClientActivity_1;
 import com.zwh.test.test_wifip2p.ServiceActivity_1;
 import com.zwh.test.viewmodel.TestViewModel;
+import com.zwh.utils.calculate.DpUtils;
 import com.zwh.utils.log.OwnUncaughtExceptionHandler;
 import com.zwh.utils.observable.BusMutableLiveData;
 import com.zwh.utils.observable.SingleLiveEvent;
@@ -49,20 +52,22 @@ public class TestActivity_2 extends AppCompatActivity {
     private SingleLiveEvent<String> singleLiveEvent = new SingleLiveEvent<>();
     private ActivityTestBinding binding;
     private volatile String TAG = getClass().getSimpleName();
-    ;
 
-    Handler handler =new Handler(Looper.getMainLooper(), new Handler.Callback() {
+
+    Handler handler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
             handler.sendEmptyMessage(0);
             return false;
         }
     });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-        testHandler();
+        testRvCornerBg();
+//        testHandler();
 //        testLea();
 //        testGson();
 //        initThreadTra();
@@ -73,6 +78,20 @@ public class TestActivity_2 extends AppCompatActivity {
 //        IntentFilter statusFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
 
 //        registerReceiver(BluBroadcast.mStatusReceive,statusFilter);
+    }
+
+    private void testRvCornerBg() {
+        RecyclerView rv = binding.rv;
+        GradientDrawable gradientDrawable = new GradientDrawable();
+        // 圆角
+        int v = DpUtils.dip2px(getApplicationContext(), 15);
+        gradientDrawable.setCornerRadius(v);
+        // 颜色
+        int color = getColor(com.zwh.utils.R.color.color_FFFFFF);
+        gradientDrawable.setColor(color);
+
+        rv.setBackground(gradientDrawable);
+//        rv.setPadding(v, v, v, v);
     }
 
     private void testHandler() {

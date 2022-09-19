@@ -1,14 +1,13 @@
 package com.zwh.utils.data_binding;
 
-import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.ColorInt;
 import androidx.databinding.BindingAdapter;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.zwh.utils.R;
@@ -50,7 +49,7 @@ public class CommonBindingAdapter {
      * @param color  背景颜色
      */
     @BindingAdapter(value = {"cornerBackgroundRadius", "cornerBackgroundColor"}, requireAll = false)
-    public static void setCornerBackground(View view, int radius, int color) {
+    public static void setCornerBackground(View view, int radius, @ColorInt int color) {
         GradientDrawable gradientDrawable = new GradientDrawable();
         // 圆角
         int v = DpUtils.dip2px(view.getContext(), radius);
