@@ -14,6 +14,9 @@ import android.view.animation.RotateAnimation;
 
 import java.util.Random;
 
+/**
+ * todo 转盘 待完善
+ */
 public class MyView extends View implements View.OnClickListener {
     private String mStr = "开始";
     private String[] contents = new String[]{"0", "1", "2", "3", "4", "5"};
