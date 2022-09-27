@@ -46,6 +46,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class TestActivity_2 extends AppCompatActivity {
 
@@ -66,7 +67,13 @@ public class TestActivity_2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-        testRvCornerBg();
+        binding.bt0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testLock();
+            }
+        });
+//        testRvCornerBg();
 //        testHandler();
 //        testLea();
 //        testGson();
@@ -78,6 +85,33 @@ public class TestActivity_2 extends AppCompatActivity {
 //        IntentFilter statusFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
 
 //        registerReceiver(BluBroadcast.mStatusReceive,statusFilter);
+    }
+
+    ReentrantLock lock = new ReentrantLock();
+    public void testLock() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                lock.lock();
+                try {
+                    Thread.sleep(3000);
+                    Log.e(TAG, "run: 0");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    lock.unlock();
+                }
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.e(TAG, "run: 1已启动" );
+                lock.lock();
+                Log.e(TAG, "run: 1");
+                lock.unlock();
+            }
+        }).start();
     }
 
     private void testRvCornerBg() {
@@ -106,7 +140,7 @@ public class TestActivity_2 extends AppCompatActivity {
         binding.bt0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    }
+            }
         });
     }
 
