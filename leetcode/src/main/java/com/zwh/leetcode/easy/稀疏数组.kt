@@ -1,4 +1,4 @@
-package com.zwh.leetcode
+package com.zwh.leetcode.easy
 
 fun main() {
     var arr = arrayOf("at", "", "", "", "ball", "", "", "car", "", "", "dad", "", "")

@@ -1,3 +1,5 @@
+package com.zwh.leetcode.easy
+
 import com.zwh.leetcode.java.ListNode
 
 

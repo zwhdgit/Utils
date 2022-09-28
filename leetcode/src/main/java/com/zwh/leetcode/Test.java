@@ -1,9 +1,8 @@
 package com.zwh.leetcode;
 
-import android.util.Log;
+import com.zwh.leetcode.easy.统计数组中峰和谷的数量_2210;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Test {
     public static void main(String[] args) {
