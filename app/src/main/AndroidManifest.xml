@@ -63,7 +63,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.SyncBarrierTestActivity"
+            android:name=".handler_test.SyncBarrierTestActivity"
             android:exported="true">
 
         </activity>

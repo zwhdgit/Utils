@@ -74,7 +74,7 @@ public class TestActivity_2 extends AppCompatActivity {
             }
         });
 //        testRvCornerBg();
-//        testHandler();
+        testHandler();
 //        testLea();
 //        testGson();
 //        initThreadTra();
