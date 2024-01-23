@@ -1,4 +1,4 @@
-apply plugin: 'maven'
+//apply plugin: 'maven'
 //apply plugin: 'groovy'  //必须
 
 dependencies {
